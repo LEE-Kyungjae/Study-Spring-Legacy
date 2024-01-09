@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 앞으로 사용할 객체를 생성하는 영역 -->
+	<!-- PersonVO p1 = new PersonVO 
+		p1.setName();
+		p1.setAge;
+	-->
+	<bean id="p1" class= "vo.PersonVO">
+		<!-- property속성을 통해 setter로 접근하여 값을 집어넣는 구조를 SI(setterInjection) 이라고 한다 -->
+		<property name="name" value="홍길동"/>
+		<property name="age" value="20"/>
+	</bean>
+	
+	<!-- PersonVO p1 = new PersonVO("홍길동" , 20) -->
+	<bean id="p2" class= "vo.PersonVO">
+		<!-- constructor-arg 속성을 통해서 생성자로 접근하여 값을 집어넣는 구조를 CI(ConstructorInjection) 이라고 한다 -->
+		<constructor-arg value="김길동"/>
+		<constructor-arg value="13"/>
+	</bean>
+	
+</beans>

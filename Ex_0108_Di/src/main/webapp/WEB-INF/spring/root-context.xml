@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- FruitDAO dao = enw FruitDAO(); -->
+	<bean id="daoBean" class="dao.FruitDAO"></bean>
+	<!-- FruitService serviceBean = new FruitServiec(daoBean); -->
+<!--
+ 	<bean id="serviceBean" class="service.FruitService">
+		ref:DI(dependencty injection : 의존성 주입)
+		<constructor-arg ref="daoBean"/>
+	</bean> 
+-->
+<!-- 
+	FruitServiec serviceBean =new FruitService();
+		serviceBean.serDao(daoBean);
+-->
+	<bean id = "serviceBean" class="service.FruitService">
+		<property name="dao" ref="daoBean"/>
+	</bean>
+</beans>
