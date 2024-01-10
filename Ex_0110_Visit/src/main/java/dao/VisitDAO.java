@@ -4,23 +4,18 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import vo.DeptVO;
+import vo.VisitVO;
 
-public class DeptDAO {
-
+public class VisitDAO {
 	SqlSession sqlSession;
-
+	
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
-
-	// 부서목록 조회
-	public List<DeptVO> selectList() {
-
-		List<DeptVO> list = sqlSession.selectList("d.dept_list");
-
+	
+	//방명록 전체 조회
+	public List<VisitVO> selectAll() {
+		List<VisitVO> list = sqlSession.selectList("v.visit_list");
 		return list;
-
 	}
-
 }
