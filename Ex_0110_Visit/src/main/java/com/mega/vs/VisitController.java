@@ -24,4 +24,10 @@ public class VisitController {
 		model.addAttribute("list", list);
 		return MyCommon.Visit.VIEW_PATH+"visit_list.jsp";
 	}
+	//새글쓰기 폼 띄우기
+	@RequestMapping("/insert_form.do")
+	public String insert_form() {
+		return MyCommon.Visit.VIEW_PATH+"visit_insert_form.jsp";
+	}
+	
 }

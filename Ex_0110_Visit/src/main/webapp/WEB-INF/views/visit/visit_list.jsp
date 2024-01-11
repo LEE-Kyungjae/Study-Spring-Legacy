@@ -9,6 +9,27 @@
 <link rel="stylesheet" href="/vs/resources/css/visit.css">
 <style type="text/css">
 </style>
+<script type="text/javascript">
+	function del(f) {
+		let pwd = f.pwd.value;
+		let c_pwd = f.c_pwd.value;
+		if (pwd != c_pwd) {
+			alert("비밀번호 불일치");
+			return;
+		}
+		if (!confirm('정말로 삭제하시겠습니까?')) {
+			return;
+		}
+	}//del
+	function modify(f) {
+		let pwd = f.pwd.value;
+		let c_pwd = f.c_pwd.value;
+		if (pwd != c_pwd) {
+			alert("비밀번호 불일치");
+			return;
+		}
+	}//modify
+</script>
 </head>
 <body>
 	<div id="main_box">
