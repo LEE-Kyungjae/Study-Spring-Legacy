@@ -9,26 +9,56 @@
 <link rel="stylesheet" href="/vs/resources/css/visit.css">
 <style type="text/css">
 </style>
+<!-- scr="${pageContext.request.contextPath}/resources/js/... "-->
+<script type="text/javascript" src="/vs/resources/js/httpRequest.js"></script>
 <script type="text/javascript">
 	function del(f) {
 		let pwd = f.pwd.value;
 		let c_pwd = f.c_pwd.value;
-		if (pwd != c_pwd) {
-			alert("비밀번호 불일치");
-			return;
-		}
 		if (!confirm('정말로 삭제하시겠습니까?')) {
 			return;
 		}
+		let url = "delete.do";
+		let param = "idx=" + f.idx.value + "&pwd=" + f.pwd.value + "&c_pwd="
+				+ f.c_pwd.value;
+		sendRequest(url, param, resultFn, "POST");
 	}//del
+	function resultFn() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			let data = xhr.responseText;
+			if (data == "3") {
+				alert("삭제가능");
+			} else if (data == "1") {
+				alert("삭제성공");
+				location.href = "list.do";
+				return;
+			} else {
+				alert("삭제실패");
+			}
+		}
+	}
 	function modify(f) {
 		let pwd = f.pwd.value;
 		let c_pwd = f.c_pwd.value;
-		if (pwd != c_pwd) {
-			alert("비밀번호 불일치");
-			return;
-		}
+		let url = "modify_form.do";
+		let param = "idx=" + f.idx.value + "&pwd=" + pwd + "&c_pwd=" + c_pwd;
+		sendRequest(url, param, resModify, "POST");
 	}//modify
+
+	function resModify() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			let data = xhr.responseText;
+			if (data == "0") {
+				return;
+			} else if (data == "1") {
+				location.href = "modify.do";
+				return;
+			} else {
+				alert("비밀번호 불일치");
+
+			}
+		}
+	}
 </script>
 </head>
 <body>
@@ -40,7 +70,9 @@
 		</div>
 		<c:forEach var="vo" items="${list}">
 			<div class="visit_box">
-				<div class="type_content">${vo.content}</div>
+				<div class="type_content">
+					<pre>${vo.content}</pre>
+				</div>
 				<div class="type_name">${vo.name}</div>
 				<div class="type_regdate">${vo.regdate}</div>
 				<div>
