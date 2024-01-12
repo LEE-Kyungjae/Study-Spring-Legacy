@@ -19,7 +19,7 @@
 </script>
 </head>
 <body>
-	<form action="">
+	<form method="post" enctype="multipart/form-data">
 		<table border="1" align="center">
 			<caption>:::새 글 작성:::</caption>
 			<tr>
@@ -35,6 +35,10 @@
 				<!-- wrap : textarea에서 글이 길어져 자동으로 다음줄로 넘어갔을 때 이것을 엔터값으로 인지하도록 함 -->
 				<td><textarea name="content" rows="5" cols="50"
 						style="resize: none;" wrap="on"></textarea></td>
+			</tr>
+			<tr>
+				<th>파일첨부</th>
+				<td><input type="file" name="photo"></td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center"><input type="button" value="글쓰기"

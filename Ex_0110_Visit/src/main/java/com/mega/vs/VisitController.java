@@ -2,9 +2,11 @@ package com.mega.vs;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,13 @@ import vo.VisitVO;
 
 @Controller
 public class VisitController {
+	@Autowired
+	HttpServletRequest request;
+	@Autowired
+	HttpSession session;
+	@Autowired
+	ServletContext app;
+
 	VisitDAO visitDao;
 
 	public void setVisitDao(VisitDAO visitDao) {
@@ -39,7 +48,7 @@ public class VisitController {
 
 	// 새 글 쓰기
 	@RequestMapping("/insert.do")
-	public String insert(VisitVO vo, HttpServletRequest request) {
+	public String insert(VisitVO vo) {
 
 		String ip = request.getRemoteAddr();// ip가져오기
 
@@ -49,6 +58,18 @@ public class VisitController {
 		vo.setIp(ip);
 		// System.out.println( "암호화 : " + encodePwd );
 
+		//절대경로로 사용할 path
+		
+		//실제 절대경로로 변환된 path
+		
+		//업로드 된 파일 정보
+		
+		String filename ="no_file";
+		
+		//업로드된 파일의 존재여부 확인
+		
+		vo.setFilename(filename);
+		
 		// 새글 작성
 		visitDao.insert(vo);
 
@@ -78,15 +99,13 @@ public class VisitController {
 	// 수정폼으로 이동
 	@RequestMapping("/modify_form.do")
 	@ResponseBody
-	public String modify_form(HttpSession session, int idx, String pwd, String c_pwd) {
+	public String modify_form(int idx, String pwd, String c_pwd) {
 
 		boolean check = BCrypt.checkpw(c_pwd, pwd);
 		if (!check) {
 			return "3";
 		}
-
 		VisitVO vo = visitDao.selectOne(idx);
-
 		if (vo != null) {
 			session.setAttribute("vo", vo);
 			return "1";
@@ -103,7 +122,7 @@ public class VisitController {
 
 	// 수정작업 수행
 	@RequestMapping("/modify_fin.do")
-	public String modify_fin(VisitVO vo, HttpServletRequest request) {
+	public String modify_fin(VisitVO vo) {
 		String ip = request.getRemoteAddr();
 		vo.setIp(ip);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
