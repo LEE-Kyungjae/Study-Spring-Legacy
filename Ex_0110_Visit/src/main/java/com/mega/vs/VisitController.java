@@ -1,5 +1,7 @@
 package com.mega.vs;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import dao.VisitDAO;
 import util.MyCommon;
@@ -58,18 +61,36 @@ public class VisitController {
 		vo.setIp(ip);
 		// System.out.println( "암호화 : " + encodePwd );
 
-		//절대경로로 사용할 path
-		
-		//실제 절대경로로 변환된 path
-		
-		//업로드 된 파일 정보
-		
-		String filename ="no_file";
-		
-		//업로드된 파일의 존재여부 확인
-		
+		// 절대경로로 사용할 path
+		String webPath = "/resources/upload/";
+		// 실제 절대경로로 변환된 path
+		String savePath = app.getRealPath(webPath);
+		System.out.println("절대경로 : " + savePath);
+		// 업로드 된 파일 정보
+		MultipartFile photo = vo.getPhoto();
+		String filename = "no_file";
+
+		// 업로드된 파일의 존재여부 확인
+		if (!photo.isEmpty()) {
+			filename = photo.getOriginalFilename();// 원본 파일명
+			File saveFile = new File(savePath, filename);
+			if (!saveFile.exists()) {
+				saveFile.mkdirs();
+			} else {
+				// 업로드된 파일명의 중복처리
+				long time = System.currentTimeMillis();
+				filename = String.format("%d_%s", time, filename);
+				saveFile = new File(savePath, filename);
+			}
+			// 지정된 경로로 파일을 물리적으로 복사
+			try {
+				photo.transferTo(saveFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} // if
 		vo.setFilename(filename);
-		
+
 		// 새글 작성
 		visitDao.insert(vo);
 
